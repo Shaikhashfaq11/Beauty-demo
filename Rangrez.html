@@ -1,0 +1,264 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Rangrez</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Hind:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<style id="page-style">
+/* Layout: one long scroll. A mandala draws itself in the hero, section headings get a henna squiggle, gallery cards redraw on hover. Admin lives at #admin. */
+:root{--bg:#0d2520;--bg2:#153629;--card:#123027;--fg:#f5ead7;--muted:#b4b8a4;--gold:#ecb64f;--rose:#ee7692;--line:rgba(245,234,215,.18);--ink:#0d2520;--ok:#7ccf9b;--warn:#f0b35a;--bad:#f28b8b;
+--display:'Yatra One','Noto Serif Devanagari',Georgia,serif;--body:'Hind','Segoe UI',system-ui,sans-serif;--mono:'DM Mono',ui-monospace,monospace;color-scheme:dark}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#fbefe2;--bg2:#f4dfca;--card:#fff7ee;--fg:#17352b;--muted:#566a5e;--gold:#965806;--rose:#bd2f58;--line:rgba(23,53,43,.2);--ink:#fbefe2;--ok:#1d7a45;--warn:#9a5b06;--bad:#b3261e;color-scheme:light}}
+:root[data-theme="light"]{--bg:#fbefe2;--bg2:#f4dfca;--card:#fff7ee;--fg:#17352b;--muted:#566a5e;--gold:#965806;--rose:#bd2f58;--line:rgba(23,53,43,.2);--ink:#fbefe2;--ok:#1d7a45;--warn:#9a5b06;--bad:#b3261e;color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1.0625rem/1.6 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:400;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.mono{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.8rem 1.5rem;border-radius:999px;background:var(--gold);color:var(--ink);font:600 1rem var(--body);text-decoration:none;border:1px solid var(--gold);cursor:pointer;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.btn.sm{padding:.45rem 1rem;font-size:.9rem}
+.btn[aria-disabled="true"]{opacity:.55;pointer-events:none}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:18px}
+.logo{font:400 1.5rem/1 var(--display);text-decoration:none;display:flex;align-items:center;gap:10px;min-width:0}
+.logo i{width:12px;height:12px;border-radius:50%;background:var(--rose);flex:none}
+.nav{display:flex;align-items:center;gap:22px}
+.nav a.l{display:none;text-decoration:none;color:var(--muted)}
+.nav a.l:hover{color:var(--fg)}
+@media(min-width:760px){.nav a.l{display:inline}}
+.banner{background:var(--rose);color:var(--ink);text-align:center;padding:8px 16px;font-weight:600;font-size:.95rem}
+
+/* hero */
+.hero{display:grid;gap:12px;align-items:center;padding-block:12px 56px}
+.hero>*{min-width:0}
+@media(min-width:860px){.hero{grid-template-columns:1.05fr .95fr;gap:32px;padding-block:36px 84px}}
+.hero .script{font:400 1.5rem var(--display);color:var(--rose);margin-bottom:6px}
+.hero h1{font-size:clamp(3.4rem,13vw,8rem);line-height:.95;letter-spacing:-.01em;margin-bottom:18px}
+.hero .tag{font:400 clamp(1.3rem,3.6vw,1.9rem)/1.25 var(--display);color:var(--gold);margin-bottom:14px}
+.hero .sub{color:var(--muted);max-width:44ch;margin-bottom:26px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.mand{width:min(100%,520px);aspect-ratio:1;justify-self:center;order:-1;max-width:100%}
+@media(min-width:860px){.mand{order:0}}
+.mand svg{width:100%;height:100%;display:block;animation:spin 140s linear infinite}
+.hero .ink{stroke-dashoffset:1;animation:draw 1.7s cubic-bezier(.5,0,.2,1) forwards;animation-delay:calc(var(--i)*90ms + 250ms)}
+.hero .dot{opacity:0;animation:pop .5s forwards;animation-delay:calc(var(--i)*45ms + 1.4s)}
+.ink{fill:none;stroke:var(--gold);stroke-width:.9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0}
+.dot{fill:var(--rose)}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes pop{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ticker */
+.tick{border-block:1px solid var(--line);overflow:hidden;background:var(--bg2);padding-block:14px}
+.track{display:flex;width:max-content;animation:slide 38s linear infinite}
+.track span{font:400 1.6rem/1 var(--display);padding-inline:22px;white-space:nowrap;display:flex;align-items:center;gap:44px}
+.track span:after{content:"";width:9px;height:9px;border-radius:50%;background:var(--rose)}
+
+/* sections */
+section{padding-block:72px 8px}
+.sh{margin-bottom:28px}
+.sh h2{font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.05}
+.sh .mono{display:block;margin-bottom:10px}
+.sq{display:block;width:150px;height:14px;margin-top:12px;overflow:visible}
+.sq path{fill:none;stroke:var(--rose);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.3s ease}
+.sq.in path{stroke-dashoffset:0}
+
+/* services */
+.svc{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 20px;padding:20px 0;border-top:1px solid var(--line);transition:padding .3s,background .3s}
+.svc:last-child{border-bottom:1px solid var(--line)}
+.svc:hover{padding-left:14px;background:linear-gradient(90deg,var(--bg2),transparent)}
+.svc h3{font-size:clamp(1.4rem,3.6vw,1.9rem);line-height:1.15}
+.svc p{color:var(--muted);max-width:56ch}
+.price{font:500 1.2rem var(--mono);color:var(--gold);text-align:right;white-space:nowrap}
+.price small{display:block;color:var(--muted);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+
+/* gallery */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:16px}
+.card{margin:0}
+.art{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);aspect-ratio:1;background:radial-gradient(circle at 50% 42%,var(--bg2),var(--bg) 78%)}
+.art svg,.art img{width:100%;height:100%;display:block;object-fit:cover}
+.art svg{padding:10px}
+.card:hover .ink,.card:focus-within .ink{animation:draw 1.4s ease both;animation-delay:calc(var(--i)*60ms)}
+.card figcaption{display:flex;justify-content:space-between;gap:10px;padding:10px 4px 0;align-items:baseline}
+.card figcaption b{font:400 1.15rem var(--display)}
+
+/* aftercare */
+.steps{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));counter-reset:s;padding:0;margin:0;list-style:none}
+.steps li{counter-increment:s;border-top:2px solid var(--gold);padding-top:16px}
+.steps li:before{content:counter(s);font:400 2.6rem/1 var(--display);color:var(--rose);display:block;margin-bottom:8px}
+.steps h3{font-size:1.4rem;margin-bottom:6px}
+.steps p{color:var(--muted)}
+
+/* reviews */
+.rev{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.rev blockquote{margin:0;padding:22px;border:1px solid var(--line);border-radius:18px;background:var(--card)}
+.rev cite{display:block;margin-top:12px;font-style:normal}
+
+/* booking */
+.book{display:grid;gap:32px}
+.book>*{min-width:0}
+@media(min-width:860px){.book{grid-template-columns:.9fr 1.1fr;gap:56px}}
+.form{display:grid;gap:14px;padding:24px;border:1px solid var(--line);border-radius:22px;background:var(--card)}
+.field{display:grid;gap:6px}
+.field label{font:500 .72rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+input,select,textarea{width:100%;font:400 1rem var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:.7rem .85rem}
+textarea{min-height:90px;resize:vertical}
+.row2{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))}
+.note{font-size:.9rem;color:var(--muted)}
+footer{margin-top:80px;border-top:1px solid var(--line);padding-block:28px 40px}
+.foot{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;align-items:center}
+.foot a{color:var(--muted)}
+
+/* admin */
+.adm{padding-block:8px 120px}
+.adm h1{font-size:clamp(2rem,6vw,3rem);margin-bottom:6px}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:20px 0}
+.sum div{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--card)}
+.sum b{display:block;font:400 2rem/1.1 var(--display)}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:18px}
+.tabs button{flex:none;font:500 .95rem var(--body);padding:.5rem 1rem;border-radius:999px;border:1px solid var(--line);background:none;color:var(--fg);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.panel{display:grid;gap:14px;max-width:760px}
+.item{display:grid;gap:10px;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.item .bar{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.danger{color:var(--bad);border-color:var(--bad)}
+.pubbar{position:fixed;left:0;right:0;bottom:0;background:var(--bg2);border-top:1px solid var(--line);padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;z-index:5}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font:500 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line)}
+.sample{background:var(--bg2);border:1px dashed var(--gold);border-radius:12px;padding:12px 14px;font-size:.92rem}
+.msg{color:var(--warn);font-size:.92rem}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.hero .ink,.sq path{stroke-dashoffset:0}.hero .dot{opacity:1}.track{flex-wrap:wrap;width:auto}}
+</style>
+<div id="app"></div>
+<script type="application/json" id="site-data">{"v":1,"brand":{"name":"Rangrez","script":"रंगरेज़","tagline":"Haath par kahaani, chehre par noor.","sub":"Bridal and party mehndi, makeup and hair, made by hand and finished with care.","city":"","about":"","whatsapp":"","instagram":"","announce":""},"services":[{"id":"s1","name":"Bridal Mehndi","desc":"Full hands and feet with dense traditional work, dulha-dulhan figures and a custom design plan.","price":"5000","unit":"per bride"},{"id":"s2","name":"Arabic Mehndi","desc":"Flowing stems, leaves and bold negative space. Quick to apply, striking on photos.","price":"500","unit":"per hand"},{"id":"s3","name":"Sangeet and Engagement Mehndi","desc":"Detailed but lighter designs for the family functions around the wedding.","price":"1500","unit":"per person"},{"id":"s4","name":"Party Makeup","desc":"Skin prep, base, eyes and lips for parties, receptions and festivals.","price":"2500","unit":"per look"},{"id":"s5","name":"Bridal Makeup","desc":"Long-wear HD finish with trial planning, draping help and touch-up kit.","price":"12000","unit":"per bride"},{"id":"s6","name":"Hairstyling","desc":"Buns, braids, curls and bridal hairdos set to last through the night.","price":"800","unit":"per style"}],"gallery":[{"id":"g1","kind":"motif","style":"mandala","title":"Palm mandala","tag":"Bridal"},{"id":"g2","kind":"motif","style":"vine","title":"Climbing vine","tag":"Arabic"},{"id":"g3","kind":"motif","style":"paisley","title":"Paisley ring","tag":"Sangeet"},{"id":"g4","kind":"motif","style":"jaali","title":"Jaali lattice","tag":"Bridal"},{"id":"g5","kind":"motif","style":"arabic","title":"Arabic stem","tag":"Guest"},{"id":"g6","kind":"motif","style":"mandala","title":"Round mehndi","tag":"Festive"}],"reviews":[],"enquiries":[]}</script>
+<script id="main">
+(function(){
+var S=JSON.parse(document.getElementById('site-data').textContent);
+var app=document.getElementById('app');
+var tab='details',dirty=false,USER=null,note='',busy=false;
+var STYLES={mandala:'Mandala',vine:'Vine and leaf',paisley:'Paisley ring',jaali:'Jaali lattice',arabic:'Arabic stem'};
+var STATUS=['New','Confirmed','Done','Cancelled'];
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function uid(){return 'x'+Math.random().toString(36).slice(2,8)}
+function money(p){var n=Number(p);return isFinite(n)&&String(p).trim()!==''?'₹'+n.toLocaleString('en-IN'):esc(p)}
+function waNum(){var d=String(S.brand.whatsapp||'').replace(/\D/g,'');if(d.length===10)d='91'+d;return d}
+function igUrl(){var h=String(S.brand.instagram||'').replace(/^@/,'').trim();return h?'https://instagram.com/'+encodeURIComponent(h):''}
+
+/* ---------- henna motifs ---------- */
+function f(n){return n.toFixed(1)}
+function pol(r,a){return f(r*Math.cos(a))+','+f(r*Math.sin(a))}
+function P(d,i){return '<path class="ink" pathLength="1" style="--i:'+i+'" d="'+d+'"/>'}
+function circ(r,i){return P('M'+(-r)+',0 a'+r+','+r+' 0 1,0 '+(2*r)+',0 a'+r+','+r+' 0 1,0 '+(-2*r)+',0',i)}
+function petals(n,r0,r1,off,w,i0,step){var s='',k,a,d,p1,p2,t,c1,c2,rm=(r0+r1)/2;for(k=0;k<n;k++){a=off+k*2*Math.PI/n;d=Math.PI/n*w;p1=pol(r0,a-d);p2=pol(r0,a+d);t=pol(r1,a);c1=pol(rm,a-d*1.8);c2=pol(rm,a+d*1.8);s+=P('M'+p1+' Q'+c1+' '+t+' Q'+c2+' '+p2,(i0+k*step).toFixed(2))}return s}
+function dots(n,r,rad,i0,step,off){var s='',k;for(k=0;k<n;k++){var a=(off||0)+k*2*Math.PI/n;s+='<circle class="dot" cx="'+f(r*Math.cos(a))+'" cy="'+f(r*Math.sin(a))+'" r="'+rad+'" style="--i:'+(i0+k*step).toFixed(2)+'"/>'}return s}
+function leaf(x,y,th,L,i){var tip=[x+L*Math.cos(th),y+L*Math.sin(th)],c1=[x+L*.62*Math.cos(th+.75),y+L*.62*Math.sin(th+.75)],c2=[x+L*.62*Math.cos(th-.75),y+L*.62*Math.sin(th-.75)];return P('M'+f(x)+','+f(y)+' Q'+f(c1[0])+','+f(c1[1])+' '+f(tip[0])+','+f(tip[1])+' Q'+f(c2[0])+','+f(c2[1])+' '+f(x)+','+f(y),i)}
+function mandala(v){var big=v%2===0,n=big?10:8,s='';
+ s+=circ(5,0)+petals(n,8,22,0,.6,.5,.12)+petals(n,20,44,Math.PI/n,.55,1.4,.12)+circ(47,2.4)+dots(big?30:24,53,1.5,3,.04)+petals(big?30:24,57,90,0,.4,3.4,.06)+circ(94,5.4);return s}
+function vine(rot,count){var s='',pts=[],x,y,i,k=0,th;for(x=-82;x<=82;x+=6){y=26*Math.sin(x/21);pts.push([x,y])}
+ s+=P('M'+pts.map(function(p){return f(p[0])+','+f(p[1])}).join(' L'),0);
+ for(i=3;i<pts.length-2;i+=count){x=pts[i][0];y=pts[i][1];th=(k%2?1:-1)*Math.PI/2+Math.cos(x/21)*.35;s+=leaf(x,y,th,k%2?24:28,(.8+k*.18).toFixed(2));s+=leaf(x,y,th+(k%2?.9:-.9),15,(1+k*.18).toFixed(2));k++}
+ return '<g transform="rotate('+rot+')">'+s+'</g>'}
+var PAIS='M0,0 C-11,-6 -15,-24 -4,-34 C5,-42 20,-37 19,-24 C18,-16 10,-14 8,-20 C6,-25 11,-28 9,-31';
+function paisley(){var s='',k,a;for(k=0;k<6;k++){a=k*60;s+='<g transform="rotate('+a+') translate(0,-24)">'+P(PAIS,(.4+k*.2).toFixed(2))+'</g>'}
+ for(k=0;k<6;k++){a=30+k*60;s+='<g transform="rotate('+a+') translate(0,-9) scale(.5)">'+P(PAIS,(1.6+k*.1).toFixed(2))+'</g>'}
+ return s+circ(60,2.6)+dots(36,70,1.4,3,.04)+petals(18,76,92,0,.45,3.6,.05)}
+function jaali(){var s='',r,k=0;for(r=14;r<=84;r+=14){s+=P('M0,'+(-r)+' L'+r+',0 L0,'+r+' L'+(-r)+',0 Z',(k*.3).toFixed(2));k++}
+ return s+petals(8,2,13,0,.6,2,.06)+dots(4,84,2.6,3,.1,0)+dots(4,56,2.2,3.4,.1,Math.PI/4)+circ(94,3.8)}
+function motif(style,i){var body;i=i||0;
+ if(style==='vine')body=vine(0,3);else if(style==='arabic')body=vine(-32,4)+dots(14,80,1.2,2,.05);
+ else if(style==='paisley')body=paisley();else if(style==='jaali')body=jaali();else body=mandala(i);
+ return '<svg viewBox="-100 -100 200 200" aria-hidden="true">'+body+'</svg>'}
+
+/* ---------- site ---------- */
+function ticker(){var names=S.services.map(function(s){return s.name});if(!names.length)names=['Mehndi','Makeup'];var one=names.map(function(n){return '<span>'+esc(n)+'</span>'}).join('');return '<div class="tick" aria-hidden="true"><div class="track">'+one+one+one+one+'</div></div>'}
+function sq(){return '<svg class="sq" viewBox="0 0 150 14" aria-hidden="true"><path pathLength="1" d="M2,8 C14,0 22,14 34,7 S54,0 66,7 S86,14 98,7 S118,0 130,7 S142,12 148,7"/></svg>'}
+function head(kicker,title){return '<div class="sh"><span class="mono">'+esc(kicker)+'</span><h2>'+esc(title)+'</h2>'+sq()+'</div>'}
+function siteView(){var B=S.brand,w=waNum(),ig=igUrl(),h='';
+ if(B.announce)h+='<div class="banner">'+esc(B.announce)+'</div>';
+ h+='<div class="wrap"><header class="top"><a class="logo" href="#top"><i></i>'+esc(B.name)+'</a><nav class="nav"><a class="l" href="#services">Services</a><a class="l" href="#designs">Designs</a><a class="l" href="#care">Aftercare</a><a class="btn sm" href="#book">Book now</a></nav></header></div>';
+ h+='<div class="wrap" id="top"><div class="hero"><div><div class="script">'+esc(B.script)+(B.city?' · '+esc(B.city):'')+'</div><h1>'+esc(B.name)+'</h1><p class="tag">'+esc(B.tagline)+'</p><p class="sub">'+esc(B.sub)+'</p><div class="cta"><a class="btn" href="#book">Book your date</a><a class="btn ghost" href="#designs">See designs</a></div></div><div class="mand">'+motif('mandala',0)+'</div></div></div>';
+ h+=ticker();
+ h+='<div class="wrap"><section id="services">'+head('Services and prices','What we do')+'<div>'+S.services.map(function(s){return '<div class="svc"><div><h3>'+esc(s.name)+'</h3><p>'+esc(s.desc)+'</p></div><div class="price"><small>from</small>'+money(s.price)+'<small>'+esc(s.unit)+'</small></div></div>'}).join('')+'</div></section>';
+ h+='<section id="designs">'+head('Designs','Patterns we draw')+'<div class="grid">'+S.gallery.map(function(g,i){return '<figure class="card" tabindex="0"><div class="art">'+(g.kind==='photo'?'<img src="'+esc(g.url)+'" alt="'+esc(g.title)+'" loading="lazy">':motif(g.style,i))+'</div><figcaption><b>'+esc(g.title)+'</b><span class="mono">'+esc(g.tag)+'</span></figcaption></figure>'}).join('')+'</div></section>';
+ if(S.reviews.length)h+='<section id="reviews">'+head('Kind words','From our clients')+'<div class="rev">'+S.reviews.map(function(r){return '<blockquote><p>'+esc(r.text)+'</p><cite class="mono">'+esc(r.name)+'</cite></blockquote>'}).join('')+'</div></section>';
+ h+='<section id="care">'+head('Aftercare','For a deeper stain')+'<ol class="steps"><li><h3>Let it sit</h3><p>Leave the paste on for at least 6 to 8 hours. Keep your hands still while it dries and stays damp.</p></li><li><h3>Feed the colour</h3><p>Dab a lemon and sugar mix over the dry paste every hour or so. It keeps the paste moist and the stain darker.</p></li><li><h3>Scrape, don\'t wash</h3><p>Flake the paste off gently. Skip water for the next 12 hours and rub on a little mustard oil or balm.</p></li></ol></section>';
+ h+='<section id="book"><div class="book"><div>'+head('Booking','Pick your date')+'<p>Tell us the date, the function and what you have in mind. The message opens in WhatsApp, ready to send. Dates in wedding season fill early, so ask a few weeks ahead.</p>'+(w||ig?'':'<p class="note" style="margin-top:12px">Contact details are not set yet.</p>')+'</div>'
+ +'<form class="form" id="bookform" onsubmit="return false"><div class="row2"><div class="field"><label for="bk-name">Your name</label><input id="bk-name" autocomplete="name"></div><div class="field"><label for="bk-date">Date</label><input id="bk-date" type="date"></div></div>'
+ +'<div class="field"><label for="bk-svc">Service</label><select id="bk-svc">'+S.services.map(function(s){return '<option>'+esc(s.name)+'</option>'}).join('')+'</select></div>'
+ +'<div class="field"><label for="bk-msg">Details</label><textarea id="bk-msg" placeholder="Function, venue, how many people, design ideas"></textarea></div>'
+ +'<a class="btn" id="bk-go" target="_blank" rel="noopener" href="#book">Send on WhatsApp</a></form></div></section></div>';
+ h+='<footer><div class="wrap foot"><div><b style="font-family:var(--display);font-size:1.3rem">'+esc(B.name)+'</b>'+(B.about?'<p class="note" style="max-width:46ch">'+esc(B.about)+'</p>':'')+'</div><div style="display:flex;gap:18px;flex-wrap:wrap">'+(ig?'<a href="'+ig+'" target="_blank" rel="noopener">Instagram</a>':'')+(w?'<span>+'+esc(w)+'</span>':'')+'<a href="#admin">Studio login</a></div></div></footer>';
+ return h}
+function updateWA(){var a=document.getElementById('bk-go');if(!a)return;var v=function(id){return document.getElementById(id).value.trim()};
+ var t='Hi '+S.brand.name+'! I would like to book '+v('bk-svc')+(v('bk-date')?' on '+v('bk-date'):'')+'.'+(v('bk-name')?' My name is '+v('bk-name')+'.':'')+(v('bk-msg')?' '+v('bk-msg'):'');
+ var w=waNum(),ig=igUrl();
+ if(w){a.href='https://wa.me/'+w+'?text='+encodeURIComponent(t);a.textContent='Send on WhatsApp';a.removeAttribute('aria-disabled')}
+ else if(ig){a.href=ig;a.textContent='Message on Instagram';a.removeAttribute('aria-disabled')}
+ else{a.href='#book';a.textContent='Contact not set yet';a.setAttribute('aria-disabled','true')}}
+
+/* ---------- admin ---------- */
+function canEdit(){return !!(USER&&USER.canEdit&&USER.canEdit())}
+function inp(label,id,val,extra){return '<div class="field"><label for="'+id+'">'+label+'</label><input id="'+id+'" '+extra+' value="'+esc(val)+'"></div>'}
+function bnd(k){return 'data-b="'+k+'"'}
+function lst(l,i,k){return 'data-l="'+l+'" data-i="'+i+'" data-k="'+k+'"'}
+function adminView(){var h='<div class="wrap adm"><header class="top"><a class="logo" href="#"><i></i>'+esc(S.brand.name)+'</a><a class="btn ghost sm" href="#">View site</a></header>';
+ if(!canEdit()){return h+'<h1>Studio panel</h1><p class="note" style="max-width:52ch">This panel opens for the studio owner. Open this page while signed in to the Claude account that owns it, then come back to <b>#admin</b>.</p></div>'}
+ var cnt={};STATUS.forEach(function(s){cnt[s]=0});S.enquiries.forEach(function(e){cnt[e.status]=(cnt[e.status]||0)+1});
+ h+='<h1>Studio panel</h1><p class="note">Edit anything below, then press Publish to update the live site.</p>';
+ h+='<div class="sum"><div><b>'+S.enquiries.length+'</b><span class="mono">Enquiries</span></div><div><b>'+cnt.New+'</b><span class="mono">New</span></div><div><b>'+cnt.Confirmed+'</b><span class="mono">Confirmed</span></div><div><b>'+S.services.length+'</b><span class="mono">Services</span></div></div>';
+ h+='<div class="tabs" role="tablist">'+[['details','Details'],['services','Services'],['gallery','Designs'],['reviews','Reviews'],['enq','Enquiries']].map(function(t){return '<button role="tab" data-tab="'+t[0]+'" aria-selected="'+(tab===t[0])+'">'+t[1]+'</button>'}).join('')+'</div>';
+ var B=S.brand;
+ if(tab==='details'){h+='<div class="panel">'+inp('Studio name','a-name',B.name,bnd('name'))+inp('Name in Hindi (optional)','a-script',B.script,bnd('script'))+inp('Tagline','a-tag',B.tagline,bnd('tagline'))+'<div class="field"><label for="a-sub">Short intro</label><textarea id="a-sub" '+bnd('sub')+'>'+esc(B.sub)+'</textarea></div>'+inp('City','a-city',B.city,bnd('city'))+'<div class="field"><label for="a-about">About (footer)</label><textarea id="a-about" '+bnd('about')+'>'+esc(B.about)+'</textarea></div>'+inp('WhatsApp number','a-wa',B.whatsapp,bnd('whatsapp')+' inputmode="tel" placeholder="9876543210"')+inp('Instagram handle','a-ig',B.instagram,bnd('instagram')+' placeholder="@yourhandle"')+inp('Top banner (leave empty to hide)','a-ann',B.announce,bnd('announce')+' placeholder="Diwali dates open, book now"')+'</div>'}
+ if(tab==='services'){h+='<div class="panel"><div class="sample">The prices here are sample values. Replace them with your real rates before sharing the link.</div>'+S.services.map(function(s,i){return '<div class="item"><div class="bar"><span class="mono">Service '+(i+1)+'</span><button class="btn ghost sm danger" data-act="del" data-l="services" data-i="'+i+'">Remove</button></div>'+inp('Name','sv-n'+i,s.name,lst('services',i,'name'))+'<div class="row2">'+inp('Price (rupees)','sv-p'+i,s.price,lst('services',i,'price')+' inputmode="numeric"')+inp('Per','sv-u'+i,s.unit,lst('services',i,'unit'))+'</div><div class="field"><label for="sv-d'+i+'">Description</label><textarea id="sv-d'+i+'" '+lst('services',i,'desc')+'>'+esc(s.desc)+'</textarea></div></div>'}).join('')+'<button class="btn ghost" data-act="add-service">Add a service</button></div>'}
+ if(tab==='gallery'){h+='<div class="panel"><p class="note">Drawn patterns appear on the site as animated henna art. Upload photos of your real work to show them next to the patterns.</p>'+S.gallery.map(function(g,i){return '<div class="item"><div class="bar"><span class="pill">'+(g.kind==='photo'?'Photo':esc(STYLES[g.style]||'Pattern'))+'</span><button class="btn ghost sm danger" data-act="del" data-l="gallery" data-i="'+i+'">Remove</button></div><div class="row2">'+inp('Title','g-t'+i,g.title,lst('gallery',i,'title'))+inp('Label','g-g'+i,g.tag,lst('gallery',i,'tag'))+'</div></div>'}).join('')+'<div class="item"><span class="mono">Add a pattern</span><div class="row2"><div class="field"><label for="n-style">Pattern</label><select id="n-style">'+Object.keys(STYLES).map(function(k){return '<option value="'+k+'">'+STYLES[k]+'</option>'}).join('')+'</select></div>'+inp('Title','n-title','','placeholder="Name this design"')+'</div><button class="btn ghost" data-act="add-motif">Add pattern</button></div><div class="item"><span class="mono">Upload a photo</span><input id="n-file" type="file" accept="image/*"><span class="note">Photos need the Editor role on this page.</span></div></div>'}
+ if(tab==='reviews'){h+='<div class="panel"><p class="note">Add only feedback that clients really gave you. The Kind words section stays hidden while this list is empty.</p>'+S.reviews.map(function(r,i){return '<div class="item"><div class="bar"><span class="mono">Review '+(i+1)+'</span><button class="btn ghost sm danger" data-act="del" data-l="reviews" data-i="'+i+'">Remove</button></div>'+inp('Client name','r-n'+i,r.name,lst('reviews',i,'name'))+'<div class="field"><label for="r-t'+i+'">What they said</label><textarea id="r-t'+i+'" '+lst('reviews',i,'text')+'>'+esc(r.text)+'</textarea></div></div>'}).join('')+'<button class="btn ghost" data-act="add-review">Add a review</button></div>'}
+ if(tab==='enq'){h+='<div class="panel"><p class="note">Messages arrive on WhatsApp. Log each one here to keep dates and status in one place.</p>'+S.enquiries.map(function(e,i){return '<div class="item"><div class="bar"><span class="pill">'+esc(e.status)+'</span><button class="btn ghost sm danger" data-act="del" data-l="enquiries" data-i="'+i+'">Remove</button></div><div class="row2">'+inp('Client','e-n'+i,e.name,lst('enquiries',i,'name'))+inp('Date','e-d'+i,e.date,lst('enquiries',i,'date')+' type="date"')+'</div><div class="row2"><div class="field"><label for="e-s'+i+'">Service</label><select id="e-s'+i+'" '+lst('enquiries',i,'service')+'>'+S.services.map(function(s){return '<option'+(s.name===e.service?' selected':'')+'>'+esc(s.name)+'</option>'}).join('')+'</select></div><div class="field"><label for="e-t'+i+'">Status</label><select id="e-t'+i+'" '+lst('enquiries',i,'status')+'>'+STATUS.map(function(s){return '<option'+(s===e.status?' selected':'')+'>'+s+'</option>'}).join('')+'</select></div></div>'+inp('Note','e-o'+i,e.note,lst('enquiries',i,'note'))+'</div>'}).join('')+'<button class="btn ghost" data-act="add-enq">Log an enquiry</button></div>'}
+ h+='</div><div class="pubbar"><span id="pub-state" class="note">'+(dirty?'You have unpublished changes.':'Everything is published.')+(note?' <span class="msg">'+esc(note)+'</span>':'')+'</span><button class="btn" data-act="publish"'+(busy?' disabled':'')+'>Publish changes</button></div>';
+ return h}
+
+/* ---------- publishing ---------- */
+var RESET=':root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}';
+function buildDoc(){var json=JSON.stringify(S).replace(/</g,'\\u003c');var link=document.querySelector('link[href*="fonts.googleapis"]').outerHTML;var css=document.getElementById('page-style').textContent;var main=document.getElementById('main').textContent;var T='<'+'/';
+ return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>'+RESET+T+'style></head><body><title>'+esc(S.brand.name)+T+'title><meta name="claude:viewport-fit-sides" content="cover">'+link+'<style id="page-style">'+css+T+'style><div id="app"></div><script type="application/json" id="site-data">'+json+T+'script><script id="main">'+main+T+'script></body></html>'}
+function publish(){if(busy)return;busy=true;note='Publishing...';render();
+ var cu=window.claude&&window.claude.use?window.claude.use('artifact'):Promise.resolve(null);
+ cu.then(function(a){if(!a){note='Publishing is not available in this view.';busy=false;render();return}
+  return a.publish(buildDoc()).then(function(){dirty=false;note=''},function(err){busy=false;note=err&&err.code==='conflict'?'Someone else published first. The page reloads to their version.':(err&&err.code==='not_granted'||err&&err.code==='not_writer'?'You need edit access to publish.':'Could not publish. Try again.');render()})})
+ .catch(function(){busy=false;note='Could not publish. Try again.';render()})}
+
+/* ---------- wiring ---------- */
+function isAdmin(){return location.hash==='#admin'}
+function render(){var y=window.scrollY;app.innerHTML=isAdmin()?adminView():siteView();document.title=S.brand.name;
+ if(!isAdmin()){updateWA();var io=window.IntersectionObserver?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.6}):null;document.querySelectorAll('.sq').forEach(function(el){io?io.observe(el):el.classList.add('in')})}
+ if(isAdmin())window.scrollTo(0,y)}
+function markDirty(){if(!dirty){dirty=true;var el=document.getElementById('pub-state');if(el)el.textContent='You have unpublished changes.'}}
+document.addEventListener('input',function(e){var t=e.target;
+ if(t.closest&&t.closest('#bookform')){updateWA();return}
+ if(t.dataset&&t.dataset.l){S[t.dataset.l][+t.dataset.i][t.dataset.k]=t.value;markDirty();return}
+ if(t.dataset&&t.dataset.b){S.brand[t.dataset.b]=t.value;markDirty()}});
+document.addEventListener('change',function(e){var t=e.target;
+ if(t.dataset&&t.dataset.l&&t.tagName==='SELECT'&&t.dataset.k==='status'){render()}
+ if(t.id==='n-file'&&t.files&&t.files[0]){var file=t.files[0];note='Uploading photo...';render();
+  (window.claude&&window.claude.use?window.claude.use('assets'):Promise.resolve(null)).then(function(as){if(!as){note='Photo upload needs the Editor role.';render();return}
+   return as.upload(file).then(function(r){S.gallery.push({id:uid(),kind:'photo',url:r.url,title:file.name.replace(/\.[^.]+$/,''),tag:'Our work'});markDirty();note='';tab='gallery';render()},function(){note='Upload failed. Try a smaller photo.';render()})})}});
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-tab],[data-act]');if(!b)return;
+ if(b.dataset.tab){tab=b.dataset.tab;note='';render();return}
+ var a=b.dataset.act;
+ if(a==='publish')publish();
+ else if(a==='del'){S[b.dataset.l].splice(+b.dataset.i,1);markDirty();render()}
+ else if(a==='add-service'){S.services.push({id:uid(),name:'New service',desc:'',price:'',unit:'per person'});markDirty();render()}
+ else if(a==='add-motif'){var st=document.getElementById('n-style').value,ti=document.getElementById('n-title').value.trim();S.gallery.push({id:uid(),kind:'motif',style:st,title:ti||STYLES[st],tag:'New'});markDirty();render()}
+ else if(a==='add-review'){S.reviews.push({id:uid(),name:'',text:''});markDirty();render()}
+ else if(a==='add-enq'){S.enquiries.unshift({id:uid(),name:'',date:'',service:(S.services[0]||{}).name||'',status:'New',note:''});markDirty();render()}});
+window.addEventListener('hashchange',function(){note='';render();if(!isAdmin()&&!location.hash)window.scrollTo(0,0)});
+render();
+if(window.claude&&window.claude.use){window.claude.use('user').then(function(u){USER=u;if(isAdmin())render()},function(){})}
+})();
+</script>
+
+</body></html>
